@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -15,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::orderByDesc('id')->get();
+        //dd($posts);
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -25,18 +29,26 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\PostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        //validate data
+        $validate_data = $request->validated();
+        // generate the slug
+        $slug = Str::slug($request->title,'-');
+        $validate_data['slug'] =$slug;
+        //create the resource
+        Post::create($validate_data);
+        // redirect to get route
+        return redirect()->route('admin.posts.index')->with('message','Post Created Successfully');
     }
 
     /**
@@ -68,7 +80,7 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         //
     }
