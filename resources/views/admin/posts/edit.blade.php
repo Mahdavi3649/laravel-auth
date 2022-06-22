@@ -32,7 +32,7 @@
         </textarea>
     </div>
 
-    <button type="submit" class="btn btn-primary">Edit Post</button>
+    <button type="submit" class="btn btn-secondary text-white">Edit Post</button>
 
 </form>
 

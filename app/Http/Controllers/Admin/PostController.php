@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
-use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -43,7 +41,8 @@ class PostController extends Controller
         //validate data
         $validate_data = $request->validated();
         // generate the slug
-        $slug = Str::slug($request->title,'-');
+        $slug = Post::generateSlug($request->title);
+
         $validate_data['slug'] =$slug;
         //create the resource
         Post::create($validate_data);
@@ -85,14 +84,14 @@ class PostController extends Controller
         //dd($request->all());
 
         // validate data
-        $val_data = $request->validated();
-        //dd($val_data);
+        $validate_data = $request->validated();
+        //dd($validate_data);
         // Gererate the slug
-        $slug = Str::slug($request->title, '-');
+        $slug = Post::generateSlug($request->title);
         //dd($slug);
-        $val_data['slug'] = $slug;
+        $validate_data['slug'] = $slug;
         // update the resource
-        $post->update($val_data);
+        $post->update($validate_data);
 
         // redirect to get route
         return redirect()->route('admin.posts.index')->with('message', "$post->title updated successfully");
