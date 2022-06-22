@@ -59,7 +59,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('admin.posts.show', compact('post'));
     }
 
     /**
@@ -70,7 +70,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -82,7 +82,20 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        //
+        //dd($request->all());
+
+        // validate data
+        $val_data = $request->validated();
+        //dd($val_data);
+        // Gererate the slug
+        $slug = Str::slug($request->title, '-');
+        //dd($slug);
+        $val_data['slug'] = $slug;
+        // update the resource
+        $post->update($val_data);
+
+        // redirect to get route
+        return redirect()->route('admin.posts.index')->with('message', "$post->title updated successfully");
     }
 
     /**
@@ -93,6 +106,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('admin.posts.index')->with('message', "$post->title deleted successfully");
     }
 }
