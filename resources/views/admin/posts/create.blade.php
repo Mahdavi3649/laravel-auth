@@ -14,7 +14,7 @@
         </div>
         <div class="mb-3">
           <label for="cover_image" class="form-label">Cover Image</label>
-          <input type="text" class="form-control" name="cover_image" id="cover_image" aria-describedby="helpcover_image" placeholder="cover_image">
+          <input type="text" class="form-control" name="cover_image" id="cover_image" aria-describedby="helpcover_image" placeholder="https://">
           <small id="helpcover_image" class="form-text text-muted">Insert Cover Image</small>
         </div>
         <div class="mb-3">
